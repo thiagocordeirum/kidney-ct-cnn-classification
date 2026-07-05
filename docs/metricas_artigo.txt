@@ -1,0 +1,334 @@
+Total de paginas: 6
+=== PAGINA 1 ===
+RevistadeInforma´ticaTeo´ricaeAplicada-RITA-ISSN2175-2745
+Vol.32,Num.1(2025)61-66
+RESEARCHARTICLE
+Renal Cancer Classification in Tomographic Images Using
+Convolutional Neural Networks to Assist Early Diagnosis
+Classificac¸a˜o de Caˆncer Renal em Imagens Tomogra´ficas Utilizando Redes Neurais
+Convolucionais para Auxiliar no Diagno´stico Precoce
+Vin´ıcius Meireles Pereira Santos1*, Ana Claudia Patrocinio2, William Chaves de Souza
+Carvalho3, Pedro Moises de Sousa1
+Abstract:Renalcancerisoneofthe13mostfrequenttypesofcancerinBrazil,primarilyaffectingindividuals
+between50and70yearsofage,witharound12,000casesand4,000deathsrecordedin2020. Earlydetection
+is crucial to prevent the progression of the disease, which can lead to kidney transplants, dialysis, or death.
+However,thelackofsymptomsandscreeningtestsmakediagnosisdifficult. Thisresearchproposestheuse
+ofConvolutionalNeuralNetworks(CNNs)forthedetectionofrenalcancerinCTimages,classifyingthemas
+cancerous or normal. It is expected that the application of the obtained results can assist in early diagnosis,
+supporting healthcare professionals in providing faster and more accurate treatments and contributing to
+improvingthepatients’qualityoflife.
+Keywords:ConvolutionalNeuralNetwork(CNN)—KidneyCancer—ClassificationofKidneyImages
+Resumo: O caˆncer renal e´ um dos 13 tipos mais frequentes de caˆncer no Brasil, afetando principalmente
+indiv´ıduos com idade entre 50 e 70 anos, com aproximadamente 12.000 casos e 4.000 mortes registradas
+em2020. Adetecc¸a˜oprecocedadoenc¸ae´ crucialparaevitarsuaprogressa˜o,quepodelevara` necessidade
+de transplantes de rins, hemodia´lise ou, em casos graves, a` morte. No entanto, a falta de sintomas e de
+examesderastreamentoeficazesquepermitamaidentificac¸a˜oprecocetornamodiagno´sticomaisdif´ıcil. Esta
+pesquisapropo˜eousodeRedesNeuraisConvolucionais(CNNs)paraadetecc¸a˜odecaˆncerrenalemimagens
+tomogra´ficas,classificando-ascomocancerosasounormais(semapresenc¸adadoenc¸a). Espera-sequea
+aplicac¸a˜odosresultadosobtidospossaauxiliarnadetecc¸a˜oprecocedadoenc¸a,ajudandoosprofissionaisde
+sau´deafornecertratamentosmaisprecisosera´pidos,contribuindoparaaqualidadedevidadospacientes.
+Palavras-Chave:RedeNeuralConvolucional(CNN)—CaˆncerRenal—CaˆncerdeRins—Classificac¸a˜ode
+ImagensRenais
+1InstituteofExactsandTechnologicalSciences–FederalUniversityofVic¸osa(UFV),Brasil
+2BiomedicalLab,FacultyofElectricalEngineering-FederalUniversityofUberlaˆndia(UFU),Brasil
+3FACOMComputationFaculty–FederalUniversityofUberlaˆndia(UFU),Brasil
+*Correspondingauthors:1{vinicius.m.santos, pedromoises}@ufv.br,2,3{ana.patrocinio, william.carvalho}@ufu.br
+DOI:http://dx.doi.org/10.22456/2175-2745.143539 • Received:24/10/2024 • Accepted:02/12/2024
+CCBY-NC-ND4.0-ThisworkislicensedunderaCreativeCommonsAttribution-NonCommercial-NoDerivatives4.0InternationalLicense.
+1. Introduction urologicalcancer[13].
+According to [13], the absence of clear symptoms and the
+Thekidneysarevitalorgansofthehumanbody,responsible lackofscreeningtestsforkidneycancermakeearlydiagno-
+forfilteringandeliminatingmetabolizedsubstancesfromthe sisachallenge,reducingthechancesofeffectivetreatment.
+body, producinghormonesthatstimulatetheproductionof Thishighlightstheneedforsupportivetoolsthatcandetect
+redbloodcells,andhelpingregulatebloodpressure. thediseaseatearlystagesandassistindefiningtherapeutic
+Morecommoninpeopleaged50to70,kidneycancerisal- approaches.
+readyamongthe13mostfrequenttypesofcancerinBrazil, Withtheadvancementofmachinelearningtechnologies,tools
+witharound13,000casesandover4,000deathsrecordedin suchasConvolutionalNeuralNetworks(CNNs)haveshown
+2020 due to this type of cancer [1]. Although kidney can- greatpotentialinanalyzingmedicalimages,enablingthede-
+cerisnotamongthetenmostfrequentoncologicaldiseases tectionofpatternsthatareimperceptibletothehumaneye.
+worldwide,theneoplasmisconsideredthemostlethaltypeof
+
+--- TABELAS PAGINA 1 ---
+Tabela 1:
+['Abstract:Renalcancerisoneofthe13mostfrequenttypesofcancerinBrazil,primarilyaffectingindividuals\nbetween50and70yearsofage,witharound12,000casesand4,000deathsrecordedin2020. Earlydetection\nis crucial to prevent the progression of the disease, which can lead to kidney transplants, dialysis, or death.\nHowever,thelackofsymptomsandscreeningtestsmakediagnosisdifficult. Thisresearchproposestheuse\nofConvolutionalNeuralNetworks(CNNs)forthedetectionofrenalcancerinCTimages,classifyingthemas\ncancerous or normal. It is expected that the application of the obtained results can assist in early diagnosis,\nsupporting healthcare professionals in providing faster and more accurate treatments and contributing to\nimprovingthepatients’qualityoflife.\nKeywords:ConvolutionalNeuralNetwork(CNN)—KidneyCancer—ClassificationofKidneyImages\nResumo: O caˆncer renal e´ um dos 13 tipos mais frequentes de caˆncer no Brasil, afetando principalmente\nindiv´ıduos com idade entre 50 e 70 anos, com aproximadamente 12.000 casos e 4.000 mortes registradas\nem2020. Adetecc¸a˜oprecocedadoenc¸ae´ crucialparaevitarsuaprogressa˜o,quepodelevara` necessidade\nde transplantes de rins, hemodia´lise ou, em casos graves, a` morte. No entanto, a falta de sintomas e de\nexamesderastreamentoeficazesquepermitamaidentificac¸a˜oprecocetornamodiagno´sticomaisdif´ıcil. Esta\npesquisapropo˜eousodeRedesNeuraisConvolucionais(CNNs)paraadetecc¸a˜odecaˆncerrenalemimagens\ntomogra´ficas,classificando-ascomocancerosasounormais(semapresenc¸adadoenc¸a). Espera-sequea\naplicac¸a˜odosresultadosobtidospossaauxiliarnadetecc¸a˜oprecocedadoenc¸a,ajudandoosprofissionaisde\nsau´deafornecertratamentosmaisprecisosera´pidos,contribuindoparaaqualidadedevidadospacientes.\nPalavras-Chave:RedeNeuralConvolucional(CNN)—CaˆncerRenal—CaˆncerdeRins—Classificac¸a˜ode\nImagensRenais']
+['1InstituteofExactsandTechnologicalSciences–FederalUniversityofVic¸osa(UFV),Brasil\n2BiomedicalLab,FacultyofElectricalEngineering-FederalUniversityofUberlaˆndia(UFU),Brasil\n3FACOMComputationFaculty–FederalUniversityofUberlaˆndia(UFU),Brasil\n*Correspondingauthors:1{vinicius.m.santos, pedromoises}@ufv.br,2,3{ana.patrocinio, william.carvalho}@ufu.br\nDOI:http://dx.doi.org/10.22456/2175-2745.143539 • Received:24/10/2024 • Accepted:02/12/2024\nCCBY-NC-ND4.0-ThisworkislicensedunderaCreativeCommonsAttribution-NonCommercial-NoDerivatives4.0InternationalLicense.']
+
+=== PAGINA 2 ===
+EarlyDiagnosisofRenalCancerviaCNNs
+This advancement may help fill the gap left by the lack of withtheadditionofa1x1x1convolutionallayeratthestart
+effectivemethodsfortheearlydetectionofkidneycancer[7]. of the network and a modification to the last convolutional
+Forthisreason,thisworkproposestheidentificationandclas- layertobalancethedistributionamongthefiveclasses. The
+sificationofkidneycancerintomographicimages,supported outputshowedtheprobabilityforeachsubtype. Asaresult,
+byConvolutionalNeuralNetworks. Themainobjectiveisto the model applied by the researchers achieved an average
+assist healthcare professionals in the early identification of accuracyof89.9%,surpassingthepredictionsofradiologists.
+cancertofacilitatedecision-makingforeachindividualcase
+andcontributetomoreaccuratediagnoses,whichmaypro-
+3. Materials and Methods
+videpatientswithmoreappropriateandtargetedtreatments,
+increasingthechancesofbetteroutcomesandimprovingqual- 3.1 Dataset
+ityoflife. ThedatasetwascollectedfromtheKaggleplatform[2]and
+Thefollowingsectionsofthisarticlearestructuredasfollows: contains12,446uniquecomputedtomography(CT)images,
+Section II presents a review of the current literature on the of which 3,709 are of cysts, 5,077 are of normal kidneys,
+subjectandanalyzesworkssimilartowhatisbeingproposed. 1,377areofkidneyswithstones,and2,283areofkidneyswith
+SectionIIIdescribestheMaterialsandMethodsusedinthis cancer. Thisresearchwasconductedbytrainingthemodels
+research,detailingthedatabase,eachofthemodelstested,the withimagesofnormalkidneysandkidneyswithcancer. The
+criteriaforpre-processingthedataset,thetestparameters,as classificationoutputconsistsoftwoclasses:normalandtumor.
+wellasthemetricsusedformodelevaluation. InSectionIV, Figure1presentssampleimagesfromthedataset.
+wepresenttheresultsobtainedfromthetestsperformedand
+brieflyanalyzethem. Finally,inSectionV,weconcludethe Figure1. Exemplesofimagesfromthedataset
+articlewithadiscussionontheresultsobtainedandreflecton
+possiblenextstepsforfuturework.
+3.2 Architectures
+Forthiswork,wetrainedfourdeeplearningarchitectures: the
+2. Related Work
+CNNsResNet50,AlexNet,MobileNetV2,andVGG-16.
+Thework[6]presentsthecreationofaCNN(Convolutional ResNet50(ResidualNeuralNetwork)isaConvolutionalNeu-
+NeuralNetwork)modelforclassifyingimagescollectedfrom ralNetworkwith50deeplayers.1 AResNetisanArtificial
+theKaggleplatform[2]andanANN (ArtificialNeuralNet- NeuralNetworkthatstacksresidualblockstoformanetwork.
+work)forclassifyingbloodsamples,withtheaimofidentify- ThisneuralnetworkarchitecturewasfirstintroducedbyKaim-
+ingkidneycancerandpredictingthedisease. Forimagepre- ingHe,XiangyuZhang,ShaoqingRen,andJianSunin2015
+processing,theauthorsusedresizingtheimagesto512x512x3 intheirworkDeepResidualLearningforImageRecognition
+andapplyinga3x3filter. Theresultsobtainedbytheresearch [9].
+were-TrainingAccuracy: CNN -96.4%,ANN -99%;Valida- AlexNet is a neural network that won the ImageNet Large
+tionAccuracy: CNN -99.6%,ANN -97%. Scale Visual Recognition Challenge 2012 by a large mar-
+Thework[5]usedtheInceptionV3network,aDeepLearning gin, consisting of five convolutional layers and three fully
+NeuralNetwork(DLNN),topredictstageonekidneycancer connected layers.2 This network was the first to show the
+versusotherstages. ItwastrainedusingComputedTomogra- possibilityofextractingfeaturesbeyondthosemanuallyde-
+phy(CT)images,originallyin3D,fromwhich2Dsliceswere signed,breakingaparadigmincomputervision. Itinnovated
+extractedtocomposethedataset. Thedatabasesusedwere byusingReLUastheactivationfunctionandGPUtoprocess
+TCGA-KIRKC from the Cancer Imaging Archive and the thenetworktraining[10]. 3
+TCIA(maintainedbytheNationalCancerInstitute,Bethesda,
+Maryland, USA). In addition to extracting slices from the MobileNet V2 is a computer vision model focused on
+original3Dimages,theauthorsresizedthegeneratedimages mobiledevices,meaningitoperateswithlowercomputational
+tomatchtheinputsizerequiredbytheDLNNandbalanced power.4 Thisclassofopen-sourceConvolutionalNeuralNet-
+the dataset so that the class percentages were equal. After workusesdepthwiseseparableconvolutions, whichsignifi-
+trainingthenetworkfor4,000epochs,thebestaccuracyresult cantlyreducesthenumberofparameterscomparedtoregular
+occurredatepoch400(bestmodel),withalearningrateof convolutionsandthesamedepthinnetworks. Developedby
+0.01,achieving91%onthevalidationset,97%ontraining, GoogleInc.,thefirstversionwasreleasedin2017[11]. The
+and90%ontesting. versionusedinthisworkwasthesecondversion.
+In[4],theauthorsproposedadeeplearningframeworkthat VGGNetworksareConvolutionalNeuralNetworks(CNNs)
+aimstosegment3Dtumorandkidneystoneimagesatapixel designedwithmultiplelayers. TheabbreviationVGGstands
+level,performmultiphasealignment,andcategorizekidney for Visual Geometry Group, and each variation of a VGG
+tumor subtypes. The dataset consisted of images from eli-
+1⟨https://viso.ai/deep-learning/resnet-residual-neural-network/⟩
+gible patients from Seoul St. Mary’s Hospital and images
+2⟨https://viso.ai/deep-learning/alexnet/⟩
+fromtheTCIAdatasetforvalidation. Thenetworkusedfor 3⟨https://d2l.ai/chapterconvolutional-modern/alexnet.html⟩
+trainingwasResNet-101forclassifyingrenalcancersubtypes, 4⟨https://builtin.com/machine-learning/mobilenet⟩
+R.Inform.Teo´r.Apl.(Online)•PortoAlegre•V.32•N.1•p.62/66•2025
+
+=== PAGINA 3 ===
+EarlyDiagnosisofRenalCancerviaCNNs
+Figure2. OverallMethodologyDiagram
+networkdiffersinthenumberofconvolutionallayersthenet-
+workcontains. Inthecaseofthenetworkusedinthiswork
+— VGG-16 — it has 16 convolutional layers. The model
+supportingthese16layers(VGG16)wasdevelopedbyA.Zis-
+sermanandK.SimonyanfromtheUniversityofOxford[12].
+The VGG-16 can classify photos into up to 1000 different
+objectcategories;themodelacceptsimageswitharesolution
+of224x224.75.
+3.3 InclusionandExclusionCriteriaintheDataset
+Forthisstudy,aspreviouslymentioned,weusedimagesfrom
+thedatasetthatcontainnormalkidneysandkidneyswithcan- Figure3. DatasetBalancingandDivision
+cer. Inthedataset,thereare5,077imagesofthenormalclass
+and2,283imagesofthetumorclass. Inordertobalancethe
+datasetandmaintainproportionalitybetweeneachclass,as 3.6 ModelEvaluation
+performedbyNathanHadjiyskiin[5],2,283imagesfromthe We evaluated the models, which were trained on the train-
+normal class were randomly selected, along with all 2,283 ing,validation,andtestsets,usingaccuracyandloss(Cross-
+imagesfromthetumorclass. Afterbalancing,thedatasetwas Entropy Loss). Based on the data obtained, we generated
+dividedintothreeparts: 60%oftheimagesfortraining,20% accuracyandlossgraphs,aswellasaconfusionmatrixfor
+for validation, and 20% for testing. This division is essen- eachmodel. Byanalyzingthemetricsobtained,itispossible
+tialforthecorrectclassificationbetweennormalandtumor toextrapolatetheclassificationcapabilityofthemodelsfor
+classes. Figure 3 represents the entire process of selection, unseensamples.
+balancing,anddatasetdivision.
+TheaccuracyandlossaredefinedinEquations1and2,
+3.4 Preprocessing respectively:
+The images in the dataset had to be preprocessed for more
+efficient model training. Originally, the images are 24-bit
+andhave3colorchannels. Thepreprocessingconsistedof TP+TN
+Accuracy= (1)
+converting all selected images to 8-bit grayscale. Figure 2 TP+TN+FP+FN
+presentsasummaryofthemethodologyusedinthiswork.
+3.5 TrainingandEvaluationParameters 1 N
+Wedefinedbasicparametersinthecodeforexecutingtraining, Loss=− ∑[y i log(p i )+(1−y i )log(1−p i )] (2)
+N
+validation,andtesting,suchasabatchsizeof32,aSEEDof i=1
+42,andalearningrateof0.0001.WeusedCross-EntropyLoss
+WhereTPistheTruePositive,TN istheTrueNegative,
+asthelossfunction,andADAMfromthePyTorchlibrarywas
+FPistheFalsePositive,FN istheFalseNegative,N isthe
+chosenastheoptimizer. Testswereperformedonallmodels
+number of samples in the batch, y is the label of the i-th
+using100epochs. i
+sample, and p is the predicted probability for the positive
+i
+5⟨https://encurtador.com.br/Xb51a⟩ classinthei-thsample.
+R.Inform.Teo´r.Apl.(Online)•PortoAlegre•V.32•N.1•p.63/66•2025
+
+=== PAGINA 4 ===
+EarlyDiagnosisofRenalCancerviaCNNs
+3.7 ComputationalResources ThebestresultwasobtainedbytestingtheMobileNetV2
+ThetestswerecarriedoutintheGoogleColabenvironment, model,achievinganaccuracyof99.89%whenevaluatingthe
+using a NVIDIA Tesla T4 GPU with 15 GB of dedicated modelwiththetestsetandalossof1.94%. Aslightlylower
+memory and 12.7 GB of system memory; tests were also resultwasobservedwithAlexNet,whichhadanaccuracyof
+conducted on a computer with an Intel Core i5-13450HX 99.67%,andwithVGG-16,whosebestrecordedaccuracywas
+processor and 16 GB of DDR5 memory, with an NVIDIA 99.56%withalossof1.32%. Incontrast, withResNet-50,
+GeForce RTX 3050 Ti GPU with 6 GB of dedicated mem- we obtained the worst results from our tests, with the best
+ory. The development environments were all based on the accuracy of the model reaching 95.45%. This model also
+Pythonprogramminglanguage,usingPyTorchwithCUDA recordedthehighestlossvaluesacrossallsets,withthebest
+(in the case of the second environment, versions 2.4.1 and recordbeing20.50%.
+12.1,respectively). TheTorchVision,NumPy,Scikit-Learn, Thestudyachievedbetterresultswhencomparedtoother
+andMatPlotLiblibrarieswerealsoused. works, aspresentedinTable2. Inthemodelwhereweob-
+tainedthebestresults,MobileNetV2,thetrainingaccuracy
+4. Results and Discussion was96.75%. Incomparison,theCNNtestedin[6]achieved
+atrainingaccuracyof96.40%,andallthemodelscompared
+Table1containstheresultsobtainedwitheachofthedataset
+in[7]reachedamaximumtrainingaccuracyof97%. When
+sets—training, validation, andtesting, respectively—for
+comparingthetestandvalidationaccuracies,MobileNetV2
+eachofthemodelsused: ResNet50,MobileNetV2,AlexNet,
+reachedatestaccuracyof99.89%,surpassingthevalidation
+andVGG-16. Thetableshowstheaccuracy(ACC)andloss
+accuracyof99.60%achievedin[6]withtheusedmodel. Fur-
+(LOSS) recorded after running 100 epochs for each of the
+thermore,thebesttestaccuracyreportedin[7]was97.70%
+models,withabatchsizeof32forthetrainingandvalidation
+withtheCNN-4model.
+sets, andtheevaluationofthebestmodelandbestweights
+using a batch size of 1 with the test set. In Figure 4, we
+5. Limitations on the Study
+presentthetrainingandvalidationaccuracygraphgenerated
+afterrunning100epochsforeachmodel;Figure5showsthe
+Thepresentworkhassomelimitationsthatshouldbeacknowl-
+trainingandvalidationlossgraphforeachofthemodels;and
+edged. First,thestudyutilizedonlyonepublicdatabasefor
+inFigure6,wedisplaytheConfusionMatricesgeneratedafter
+training,testing,andvalidationpurposes,whichmaylimitthe
+evaluatingthemodelsusingthetestset.
+generalizabilityoftheresults. Additionally,asthisrepresents
+aninitialphaseofresearch,thecurrentimplementationserves
+Table1. PerformanceoftheArchitectureswithACCand
+asaprototype,withfuturephasesplannedtoincorporatead-
+LOSSforDifferentSets
+ditionaldatabasesandpotentialheatmapimplementationsto
+Architecture Set ACC(%) LOSS(%)
+assistradiologistsincanceridentification.
+Training 91.10% 26.57%
+ResNet50
+Validation 92.90% 24.49% 6. Conclusion
+Test 95.45% 20.50% Inthiswork,weconductedvariousanalysesusingamedical
+imagedatasettoidentifythepresenceorabsenceofcancer
+Training 96.75% 10.20%
+inthekidneys. Toachievethis,weutilizedfourpre-trained
+MobileNetV2
+Validation 98.78% 06.10% ConvolutionalNeuralNetworks(CNNs): ResNet50,AlexNet,
+VGG-16, and MobileNet V2. The preprocessing strategy
+Test 99.89% 01.94%
+consistedsolelyofnormalizingtheimagesinthedataset,fol-
+Training 95.72% 10.78% lowedbybalancingthedatasetanddividingitintotraining,
+AlexNet
+Validation 97.34% 08.51% validation, and test sets. Using this strategy and the afore-
+mentionedparameters,includingtrainingfor100epochs,we
+Test 99.67% 01.48%
+obtainedresultsaveraging96.58%accuracyandameanloss
+Training 95.20% 13.08% of11.10%. However,theResNet50modelperformedbelow
+VGG-16 averageinallexecutionscenarios.
+Validation 96.56% 08.27%
+TheresultsdemonstratethatMobileNetV2,AlexNet,and
+Test 99.56% 01.32% VGG-16modelsarepromisingtoolstoassisthealthcarepro-
+fessionalsinclassifyingtomographicimagesforkidneycan-
+Asaresultofthetests,wecanobservethatinallcases, ceridentification,potentiallyprovidingmoreaccurateprog-
+usingany ofthemodelsordataset sets, theaccuraciesare noses and aiding in clinical decision-making. The implica-
+always above 90%. In all the networks used, the behavior tions of this study are significant as it aims to reduce false
+observedwasanimprovementinresultsaftertraining,with negativesinkidneycancerdetection,potentiallyincreasing
+consistentlyincreasingvalueswhenevaluatingthemodelwith patients’survivalchances. Thedevelopedsystemisdesigned
+thevalidationandtestsets. tosupportradiologistsintheirdecision-makingprocess,not
+R.Inform.Teo´r.Apl.(Online)•PortoAlegre•V.32•N.1•p.64/66•2025
+
+=== PAGINA 5 ===
+EarlyDiagnosisofRenalCancerviaCNNs
+Table2. ComparisonofAccuracyAchievedbytheProposedMethodswithState-of-the-ArtMethodology
+Metrics ThisWork [6].2023 [7].2022
+ResNet50 MobileNetV2 VGG-16 AlexNet CNN VGG-16 ResNet50 CNN-6 CNN-4
+TrainingAccuracy 91.10% 96.75% 95.20% 95.72% 96.40% 60.00% 96.00% 97.00% 92.00%
+ValidationAccuracy 92.90% 98.78% 96.56% 97.34% 99.60% – – – –
+TestAccuracy 95.45% 99.89% 99.67% 99.67% – 59.30% 97.40% 95.30% 97.70%
+Figure4. TrainingandValidationAccuraciesofAllModelsAfterRunning100Epochs
+Figure5. TrainingandValidationLossesofAllModelsAfterRunning100Epochs
+Figure6. ConfusionMatricesofAllModelsGeneratedAfterValidationontheTestSet
+R.Inform.Teo´r.Apl.(Online)•PortoAlegre•V.32•N.1•p.65/66•2025
+
+--- TABELAS PAGINA 5 ---
+Tabela 1:
+['ThisWork', '[6].2023']
+['ResNet50 MobileNetV2 VGG-16 AlexNet', 'CNN']
+['91.10% 96.75% 95.20% 95.72%', '96.40%']
+['92.90% 98.78% 96.56% 97.34%', '99.60%']
+['95.45% 99.89% 99.67% 99.67%', '–']
+
+=== PAGINA 6 ===
+EarlyDiagnosisofRenalCancerviaCNNs
+toreplacetheirexpertise. Theultimateexpectedimpactof 2 ”CTKIDNEYDATASET:Normal-Cyst-Tumorand
+thisresearchistosavemorelivesthroughimprovedcancer Stone”.Kaggle.[Online].Avaliable:CTKIDNEYDATASET:
+detectionaccuracy. Normal-Cyst-TumorandStone[AcessedonSeptember4,
+Futureworkincludesexpandingtheevaluationbyincorpo- 2024].
+ratingadditionalmetricssuchasRecall,Precision,F1-Score,
+3 ABDELRAHMAN, Abubaker; VIRIRI, Serestina.
+andothers. Wealsoplantoinvestigateimprovementsthrough
+Efficientnetfamilyu-netmodelsfordeeplearningsemantic
+imagepreprocessingtechniqueslikeGaussianfilteringand segmentationofkidneytumorsonctimages.Frontiersin
+othernoisereductionmethods. Animportantenhancement ComputerScience,v.5,p.1235622,2023.
+willbetheimplementationofClassActivationMapstopro-
+4 UHM,Kwang-Hyunetal.Deeplearningforend-to-end
+videvisualexplanationsofthemodel’sdecisions,makingthe
+kidneycancerdiagnosisonmulti-phaseabdominalcomputed
+systemmoreinterpretableformedicalprofessionals. Addi-
+tomography.NPJprecisiononcology,v.5,n.1,p.54,2021.
+tionally,weaimtovalidateourapproachonmultiplekidney
+cancer databases to enhance the robustness and generaliza- 5 HADJIYSKI,Nathan.Kidneycancerstaging: Deep
+tioncapabilityofthesystem. Theseimprovementswillhelp learning neural network based approach. In: 2020
+developamorecomprehensiveandreliabletoolforclinical InternationalConferenceone-HealthandBioengineering
+applications. (EHB).IEEE,2020.p.1-4.
+6 RAJKUMAR,K.etal.KidneyCancerDetectionusing
+Acknowledgements DeepLearningModels.In:20237thInternationalConference
+onTrendsinElectronicsandInformatics(ICOEI).IEEE,
+AllauthorsexpresstheirgratitudetotheFederalUniversity
+2023.p.1197-1203.
+of Vic¸osa (UFV), Rio Parana´ıba Campus, and the Federal
+UniversityofUberlaˆndia(UFU)fortheinstitutionalsupport 7 ALZU’BI,Daliaetal.Kidneytumordetectionand
+providedthroughoutthisresearch.Theircontribution,through classificationbasedondeeplearningapproaches: anew
+infrastructure and academic resources, was fundamental to datasetinCTscans.JournalofHealthcareEngineering,v.
+thesuccessfulcompletionofthiswork. 2022,n.1,p.3861161,2022.
+Additionally,PedroMoisesdeSousa,professorandsuper- 8 ABDELTAWAB, Hisham et al. A pyramidal deep
+visorofthisresearch,andVin´ıciusMeirelesPereiraSantos learningpipelineforkidneywhole-slidehistologyimages
+wouldliketothanktheircolleaguesfromthescientificinitia- classification.Scientificreports,v.11,n.1,p.20189,2021.
+tiongroupattheUFVRioParana´ıbacampusfortheirvaluable
+9 HE,Kaimingetal.Deepresiduallearningforimage
+discussions, feedback, andsupportthroughoutthedevelop-
+recognition.In: ProceedingsoftheIEEEconferenceon
+mentofthisresearch. Theircollaborationandsharedinsights
+computervisionandpatternrecognition.2016.p.770-778.
+greatlycontributedtothework.
+10 Russakovsky,O.,Deng,J.,Huang,Z.,Berg,A.C.,
+Author contributions Fei-Fei,L.(2013).Detectingavocadostozucchinis: what
+havewe done, andwhere arewe going? International
+Vin´ıciusM.P.Santos:Conceptualization,Methodology,Code
+ConferenceonComputerVision(ICCV).
+Development, Experiments, Analysis of Results, Writing
+(OriginalDraftandReview&Editing). 11 HOWARD, Andrew G. Mobilenets: Efficient
+AnaClaudiaPatrocinio: AssistedinConceptualization,Re- convolutionalneuralnetworksformobilevisionapplications.
+viewedandApprovedtheFinalManuscript,Supervision. arXivpreprintarXiv:1704.04861,2017.
+WilliamC.S.Carvalho: AssistedinConceptualization,Re- 12 SIMONYAN,Karen;ZISSERMAN,Andrew.Verydeep
+viewedandApprovedtheFinalManuscript,Supervision. convolutionalnetworksforlarge-scaleimagerecognition.
+Pedro Moises de Sousa: Conceptualization, Methodology, arXivpreprintarXiv:1409.1556,2014.
+CodeDevelopment,AnalysisofResults,Writing(Review&
+13 ”Caˆncer renal: doenc¸a e´ silenciosa, mas pode ser
+Editing),Supervision.
+prevenida”.PortalDrauzioVarella.[Online].Avaliable:
+CaˆncerRenal[AcessedonSeptember6,2024].
+References
+1 ”Caˆncerderim”.PfizerBrasil.[Online].Avaliable:
+CaˆncerdeRim[AcessedonAugusr8,2024].
+R.Inform.Teo´r.Apl.(Online)•PortoAlegre•V.32•N.1•p.66/66•2025
+
