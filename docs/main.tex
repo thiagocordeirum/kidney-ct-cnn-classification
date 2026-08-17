@@ -374,8 +374,8 @@ objetivo de discriminação entre tecido renal saudável e tumoral. Para
 garantir equilíbrio entre as classes, foram selecionadas aleatoriamente
 2.283 imagens da classe Normal (correspondendo ao total disponível da classe
 Tumor), totalizando 4.566 imagens. O conjunto balanceado foi dividido de
-forma estratificada nas proporções de 60\% treino (2.739 imagens), 20\%
-validação (913 imagens) e 20\% teste (914 imagens), com semente aleatória
+forma estratificada nas proporções de 60\% treino (2.738 imagens), 20\%
+validação (914 imagens) e 20\% teste (914 imagens), com semente aleatória
 $s{=}42$ para reprodutibilidade. A Fig.~\ref{fig:pipeline} ilustra o fluxo
 completo desde a seleção dos dados até a avaliação.
 
@@ -520,19 +520,19 @@ experimentos. Resultados em negrito indicam o melhor valor por modelo.
  & Gama & \textbf{97,48} & 97,17 & \textbf{97,81} & \textbf{97,49} \\
 \midrule
 \multirow{3}{*}{ResNet-34}
- & Base  & 95,19 & 95,59 & 94,75 & 95,16 \\
+ & Base  & 95,19 & 95,58 & 94,75 & 95,16 \\
  & CLAHE & 95,40 & 95,21 & \textbf{95,62} & 95,41 \\
- & Gama & \textbf{95,73} & \textbf{97,07} & 94,31 & \textbf{95,67} \\
+ & Gama & \textbf{96,06} & \textbf{97,30} & 94,75 & \textbf{96,01} \\
 \midrule
 \multirow{3}{*}{ResNet-50}
- & Base  & 95,62 & 95,42 & 95,84 & 95,63 \\
+ & Base  & 95,73 & 95,43 & 96,06 & 95,75 \\
  & CLAHE & 96,06 & \textbf{96,67} & 95,40 & 96,04 \\
  & Gama & \textbf{96,50} & 96,50 & \textbf{96,50} & \textbf{96,50} \\
 \midrule
 \multirow{3}{*}{AlexNet}
- & Base  & \textbf{98,91} & 98,48 & \textbf{99,34} & \textbf{98,91} \\
+ & Base  & 98,91 & \textbf{98,48} & 99,34 & 98,91 \\
  & CLAHE & 97,16 & 96,95 & 97,37 & 97,16 \\
- & Gama & 98,80 & 98,48 & 99,12 & 98,80 \\
+ & Gama & \textbf{99,02} & 98,28 & \textbf{99,78} & \textbf{99,02} \\
 \midrule
 \multirow{3}{*}{VGG-16}
  & Base  & 98,91 & 98,06 & 99,78 & 98,92 \\
@@ -547,12 +547,13 @@ experimentos. Resultados em negrito indicam o melhor valor por modelo.
 
 \textbf{Arquiteturas ResNet.} A correção gama ($\gamma{=}0{,}7$) beneficiou
 consistentemente todas as arquiteturas ResNet, com ganhos de $+0{,}54$ p.p.\
-(ResNet-18 e ResNet-34) e $+0{,}88$ p.p.\ (ResNet-50) sobre a condição base.
+(ResNet-18), $+0{,}87$ p.p.\ (ResNet-34) e $+0{,}77$ p.p.\ (ResNet-50) sobre a
+condição base.
 O mapeamento não linear da \eqref{eq:gamma} clareia regiões escuras
 correspondentes a tecido tumoral de baixo contraste espontâneo, evidenciando
 padrões que os blocos residuais exploram com maior eficiência. O CLAHE
 produziu queda de $-1{,}75$ p.p.\ na ResNet-18 e ganhos discretos nas demais
-($+0{,}21$ p.p.\ na ResNet-34 e $+0{,}44$ p.p.\ na ResNet-50), sugerindo que
+($+0{,}21$ p.p.\ na ResNet-34 e $+0{,}33$ p.p.\ na ResNet-50), sugerindo que
 os artefatos de borda entre \textit{tiles} perturbam sobretudo as ativações
 das primeiras camadas convolucionais das redes mais rasas.
 
@@ -560,7 +561,7 @@ das primeiras camadas convolucionais das redes mais rasas.
 base, superando as ResNets (entre $95\%$ e $97\%$). O CLAHE causou queda de
 $-1{,}75$ p.p.\ na AlexNet ($97{,}16\%$) e queda menor de $-0{,}55$ p.p.\ na
 VGG-16 ($98{,}36\%$). A correção gama, por ser uma transformação monotônica
-suave, elevou o desempenho de ambas: a AlexNet atingiu $98{,}80\%$ e a VGG-16
+suave, elevou o desempenho de ambas: a AlexNet atingiu $99{,}02\%$ e a VGG-16
 alcançou \textbf{99,12\%}, melhor resultado global do experimento, com
 revocação de $100\%$ na classe Tumor. O comportamento é atribuído ao
 classificador denso de três camadas totalmente conectadas presente em ambas
@@ -627,10 +628,10 @@ pré-processamento CLAHE e correção gama sobre o desempenho de cinco
 arquiteturas CNN na classificação de câncer renal em imagens tomográficas.
 
 A correção gama com $\gamma{=}0{,}7$ demonstrou ser a
-técnica de pré-processamento mais consistente entre as avaliadas, beneficiando
-ou mantendo estável o desempenho de todas as arquiteturas: os ganhos variaram
-de $+0{,}21$ p.p.\ na VGG-16 a $+0{,}88$ p.p.\ na ResNet-50, com impacto
-mínimo de $-0{,}11$ p.p.\ na AlexNet. O melhor resultado global foi obtido
+técnica de pré-processamento mais consistente entre as avaliadas, sendo a
+única que beneficiou todas as cinco arquiteturas sem exceção: os ganhos
+variaram de $+0{,}11$ p.p.\ na AlexNet a $+0{,}87$ p.p.\ na ResNet-34.
+O melhor resultado global foi obtido
 pela VGG-16 com correção gama, que alcançou $99{,}12\%$ de acurácia e
 revocação de $100\%$ na classe Tumor, evidenciando o potencial da técnica para
 reduzir falsos negativos em cenários de rastreamento oncológico.

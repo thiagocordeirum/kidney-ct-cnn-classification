@@ -178,18 +178,20 @@ def _save_pr_curve(history, run_dir):
     plt.close()
 
 
-def _save_confusion_matrices(y_true, y_pred, run_dir):
+def save_confusion_matrices(y_true, y_pred, run_dir):
+    """Salva as matrizes de confusão (absoluta e normalizada) do run."""
     cm     = confusion_matrix(y_true, y_pred)
     cm_n   = cm.astype(float) / cm.sum(axis=1, keepdims=True)
 
     for mat, fname, fmt in [(cm, 'confusion_matrix.png', 'd'),
                              (cm_n, 'confusion_matrix_n.png', '.2f')]:
         fig, ax = plt.subplots(figsize=(5, 4))
-        sns.heatmap(mat, annot=True, fmt=fmt, cmap='Blues',
+        sns.heatmap(mat, annot=True, fmt=fmt, cmap='Blues', cbar=False,
+                    annot_kws={'size': 20},
                     xticklabels=CLASSES, yticklabels=CLASSES, ax=ax)
-        ax.set_xlabel('Predito')
-        ax.set_ylabel('Real')
-        ax.set_title('Confusion Matrix' + (' (normalizada)' if fmt == '.2f' else ''))
+        ax.set_xlabel('Predito', fontsize=13)
+        ax.set_ylabel('Real',    fontsize=13)
+        ax.tick_params(labelsize=12)
         plt.tight_layout()
         plt.savefig(run_dir / fname, dpi=120)
         plt.close()
@@ -328,7 +330,7 @@ def train_model(model, loaders, model_name: str, condition: str,
     _save_curve(history, 'metrics/precision',  'Precision', run_dir)
     _save_curve(history, 'metrics/recall',     'Recall',    run_dir)
     _save_pr_curve(history, run_dir)
-    _save_confusion_matrices(y_true, y_pred, run_dir)
+    save_confusion_matrices(y_true, y_pred, run_dir)
 
     print(f'\n  Run salvo em: {run_dir}')
     print(f'  weights/best.pt  (val_acc={best_val_acc:.2f}%)')

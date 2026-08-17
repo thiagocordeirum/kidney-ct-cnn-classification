@@ -15,11 +15,18 @@ import torch.nn as nn
 import numpy as np
 import pandas as pd
 from pathlib import Path
-from sklearn.metrics import precision_score, recall_score, f1_score
+from sklearn.metrics import (precision_score, recall_score, f1_score,
+                             confusion_matrix)
 
 SEED = 42
 torch.manual_seed(SEED)
 np.random.seed(SEED)
+torch.cuda.manual_seed_all(SEED)
+
+# Inferência determinística: sem isso a seleção de kernels do cuDNN pode fazer
+# amostras na fronteira de decisão trocarem de classe entre execuções.
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark     = False
 
 _MODEL_BUILDERS = {
     'ResNet-18': 'model_resnet18',
@@ -67,6 +74,7 @@ def main():
 
     import kagglehub
     import dataset as ds
+    import trainer
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f'Device: {device}\n')
@@ -106,6 +114,13 @@ def main():
 
         model_name = cfg.get('model')
         condition  = cfg.get('condition')
+
+        # Runs fora do escopo do artigo (outras arquiteturas ou condições)
+        if model_name not in _MODEL_BUILDERS or condition not in ds._PREPROC:
+            print(f'Pulando    {run_dir.name}  ({model_name} / {condition}) '
+                  f'— fora do escopo do artigo')
+            continue
+
         print(f'Avaliando  {run_dir.name}  ({model_name} / {condition})...')
 
         try:
@@ -119,6 +134,7 @@ def main():
             prec = precision_score(y_true, y_pred, zero_division=0) * 100
             rec  = recall_score(y_true,   y_pred, zero_division=0) * 100
             f1   = f1_score(y_true,       y_pred, zero_division=0) * 100
+            tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
 
             result = {
                 'test_acc':       round(acc,  4),
@@ -126,9 +142,17 @@ def main():
                 'test_precision': round(prec, 4),
                 'test_recall':    round(rec,  4),
                 'test_f1':        round(f1,   4),
+                # Contagens da matriz de confusão (classe positiva: Tumor).
+                # Persistidas para que as figuras sejam geradas a partir dos
+                # mesmos números da tabela, sem depender de PNGs rasterizados.
+                'test_tn': int(tn), 'test_fp': int(fp),
+                'test_fn': int(fn), 'test_tp': int(tp),
             }
             with open(run_dir / 'test_results.yaml', 'w') as f:
                 yaml.dump(result, f, default_flow_style=False)
+
+            # Regera as matrizes do run para manterem-se coerentes com o YAML
+            trainer.save_confusion_matrices(y_true, y_pred, run_dir)
 
             rows.append({'Run': run_dir.name, 'Modelo': model_name,
                          'Condição': condition, **result})
@@ -149,8 +173,12 @@ def main():
     for col in ['test_acc', 'test_loss', 'test_precision', 'test_recall', 'test_f1']:
         df[col] = df[col].apply(lambda x: f'{x:.2f}%')
 
+    df = df[['Run', 'Modelo', 'Condição',
+             'test_acc', 'test_loss', 'test_precision', 'test_recall', 'test_f1',
+             'test_tn', 'test_fp', 'test_fn', 'test_tp']]
     df.columns = ['Run', 'Modelo', 'Condição',
-                  'Test Acc', 'Test Loss', 'Precision', 'Recall', 'F1']
+                  'Test Acc', 'Test Loss', 'Precision', 'Recall', 'F1',
+                  'TN', 'FP', 'FN', 'TP']
 
     print('\n' + '═' * 95)
     print('  RESULTADO DE TESTE — todos os runs')

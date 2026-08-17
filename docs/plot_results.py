@@ -19,11 +19,15 @@ ROOT_DIR   = SCRIPT_DIR.parent                      # Etapa1/
 RUNS_DIR   = ROOT_DIR / 'runs'
 OUT_DIR    = SCRIPT_DIR
 
+import yaml
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
+
+CLASSES        = ['Normal', 'Tumor']
+N_POR_CLASSE   = 457          # conjunto de teste balanceado: 914 amostras
 
 # ── Configuração ──────────────────────────────────────────────────────────────
 
@@ -36,7 +40,7 @@ MODELS = [
 ]
 CONDITIONS = [
     ('CLAHE', 'clahe'),
-    ('Gamma', 'gamma'),
+    ('Gama',  'gamma'),
 ]
 
 BLUE   = '#2E75B6'
@@ -170,46 +174,89 @@ def plot_loss_curves():
 
 # ── Figura 3: Matrizes de Confusão Compostas ──────────────────────────────────
 
-def compose_confusion():
-    n_cond = len(CONDITIONS)
-    n_mod  = len(MODELS)
+def load_counts(slug: str, cond: str):
+    """
+    Lê (TN, FP, FN, TP) do test_results.yaml do run.
 
+    As contagens são gravadas pelo retest.py. Para runs avaliados antes dessa
+    mudança, deriva-as de precisão e recall — exato, pois o conjunto de teste
+    é balanceado (457 amostras por classe).
+    """
+    path = RUNS_DIR / f'{slug}_{cond}' / 'test_results.yaml'
+    if not path.exists():
+        print(f'  [AVISO] não encontrado: {path}')
+        return None
+
+    d = yaml.safe_load(path.read_text(encoding='utf-8'))
+    if all(k in d for k in ('test_tn', 'test_fp', 'test_fn', 'test_tp')):
+        return d['test_tn'], d['test_fp'], d['test_fn'], d['test_tp']
+
+    prec, rec = d['test_precision'], d['test_recall']
+    tp = round(rec / 100 * N_POR_CLASSE)
+    fn = N_POR_CLASSE - tp
+    fp = round(tp * (100 - prec) / prec) if prec > 0 else 0
+    tn = N_POR_CLASSE - fp
+    print(f'  [nota] {slug}_{cond}: contagens derivadas das métricas')
+    return tn, fp, fn, tp
+
+
+def compose_confusion():
+    """
+    Desenha as matrizes de confusão a partir das contagens.
+
+    A versão anterior colava os PNGs de cada run, que ficavam ilegíveis após o
+    reescalonamento para a largura da página.
+    """
+    # Proporção mantida próxima de 2,7:1 para que a figura ocupe a mesma
+    # altura de coluna da versão anterior e a paginação do artigo não mude.
+    n_cond, n_mod = len(CONDITIONS), len(MODELS)
     fig, axes = plt.subplots(
         n_cond, n_mod,
-        figsize=(18, 7),
-        gridspec_kw={'hspace': 0.04, 'wspace': 0.04},
+        figsize=(17.5, 5.4),
+        gridspec_kw={'hspace': 0.16, 'wspace': 0.20},
     )
 
     for ci, (cond_label, cond_slug) in enumerate(CONDITIONS):
         for mi, (model_label, model_slug) in enumerate(MODELS):
-            ax = axes[ci, mi]
-            img_path = RUNS_DIR / f'{model_slug}_{cond_slug}' / 'confusion_matrix.png'
+            ax     = axes[ci, mi]
+            counts = load_counts(model_slug, cond_slug)
 
-            if img_path.exists():
-                img = plt.imread(str(img_path))
-                ax.imshow(img, aspect='auto')
-            else:
-                print(f'  [AVISO] matriz não encontrada: {img_path}')
+            if counts is None:
                 ax.set_facecolor('#eeeeee')
                 ax.text(0.5, 0.5, 'N/A', ha='center', va='center',
-                        transform=ax.transAxes, fontsize=13, color='#888888')
+                        transform=ax.transAxes, fontsize=16, color='#888888')
+                ax.set_xticks([]); ax.set_yticks([])
+                continue
 
-            # Esconde ticks e bordas, mantém ylabel visível
-            ax.set_xticks([])
-            ax.set_yticks([])
-            for spine in ax.spines.values():
-                spine.set_visible(False)
+            tn, fp, fn, tp = counts
+            cm = np.array([[tn, fp], [fn, tp]])
 
-            # Nome do modelo — só na primeira linha
+            ax.imshow(cm, cmap='Blues', vmin=0, vmax=cm.max())
+
+            # Valores nas células, com contraste conforme o fundo
+            limiar = cm.max() / 2
+            for i in range(2):
+                for j in range(2):
+                    ax.text(j, i, f'{cm[i, j]:d}',
+                            ha='center', va='center',
+                            fontsize=23, fontweight='bold',
+                            color='white' if cm[i, j] > limiar else '#1a1a1a')
+
+            ax.set_xticks([0, 1]); ax.set_yticks([0, 1])
+            ax.set_xticklabels(CLASSES, fontsize=15)
+            ax.set_yticklabels(CLASSES, fontsize=15, rotation=90, va='center')
+            ax.tick_params(length=0)
+            for s in ax.spines.values():
+                s.set_visible(False)
+
             if ci == 0:
-                ax.set_title(model_label, fontsize=9, fontweight='bold', pad=5)
-
-            # Rótulo da condição — só na primeira coluna, vertical
+                ax.set_title(model_label, fontsize=18, fontweight='bold', pad=10)
+            if ci == n_cond - 1:
+                ax.set_xlabel('Predito', fontsize=15, labelpad=6)
             if mi == 0:
-                ax.set_ylabel(cond_label, fontsize=11, fontweight='bold',
-                              rotation=90, labelpad=8)
+                ax.set_ylabel(f'{cond_label}\n\nReal', fontsize=15,
+                              fontweight='bold', labelpad=8)
 
-    plt.subplots_adjust(left=0.06)
     out = OUT_DIR / 'fig_confusion.png'
     fig.savefig(out, dpi=200, bbox_inches='tight')
     plt.close(fig)
