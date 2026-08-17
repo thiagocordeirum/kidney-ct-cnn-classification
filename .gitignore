@@ -10,7 +10,21 @@ build/
 
 # Saídas do treino (pesos, plots, batch images)
 runs/
+results/
 _legacy/weights/
+
+# Exploração fora do escopo do artigo (Grad-CAM, modelos não avaliados)
+gradcam.py
+gradcam_output/
+src/model_mobilenetv2.py
+src/model_efficientnetb0.py
+src/targets.py
+
+# Material do artigo original de referência (RITA), não deste trabalho
+docs/metricas_avaliacao.csv
+docs/metricas_artigo.txt
+docs/sample_normal.jpg
+docs/sample_tumor.jpg
 
 # Node.js
 node_modules/

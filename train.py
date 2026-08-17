@@ -1,7 +1,9 @@
 """
-Reprodução do artigo RITA-VOL32-NR1-61 + estudo de pré-processamento
-Modelos   : ResNet-50 e MobileNetV2
-Condições : base (sem pré-proc) | clahe | he (equalização global)
+Análise comparativa de arquiteturas CNN com técnicas de pré-processamento
+para classificação de câncer renal em imagens tomográficas.
+
+Modelos   : ResNet-18 | ResNet-34 | ResNet-50 | AlexNet | VGG-16
+Condições : base (sem realce) | clahe | gamma (γ=0,7)
 """
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
@@ -13,8 +15,8 @@ SEED = 42
 torch.manual_seed(SEED)
 np.random.seed(SEED)
 
-_ALL_MODELS = ['ResNet-18', 'ResNet-34', 'ResNet-50', 'MobileNetV2', 'EfficientNet-B0', 'AlexNet', 'VGG-16']
-_ALL_CONDITIONS = ['base', 'clahe', 'he', 'gamma', 'stretch']
+_ALL_MODELS = ['ResNet-18', 'ResNet-34', 'ResNet-50', 'AlexNet', 'VGG-16']
+_ALL_CONDITIONS = ['base', 'clahe', 'gamma']
 
 
 def _select(label: str, options: list) -> list:
@@ -63,19 +65,15 @@ def main():
     import model_resnet18
     import model_resnet34
     import model_resnet50
-    import model_mobilenetv2
-    import model_efficientnetb0
     import model_alexnet
     import model_vgg16
 
     _MODEL_FACTORIES = {
-        'ResNet-18':       model_resnet18.build,
-        'ResNet-34':       model_resnet34.build,
-        'ResNet-50':       model_resnet50.build,
-        'MobileNetV2':     model_mobilenetv2.build,
-        'EfficientNet-B0': model_efficientnetb0.build,
-        'AlexNet':         model_alexnet.build,
-        'VGG-16':          model_vgg16.build,
+        'ResNet-18': model_resnet18.build,
+        'ResNet-34': model_resnet34.build,
+        'ResNet-50': model_resnet50.build,
+        'AlexNet':   model_alexnet.build,
+        'VGG-16':    model_vgg16.build,
     }
 
 
@@ -132,22 +130,14 @@ def main():
     logger.close()
 
     # ── Resumo final ──────────────────────────────────────────────────────────
-    from targets import ARTICLE_TARGETS, TOLERANCE
     print('\n' + '=' * 68)
     print('  RESUMO FINAL')
     print('=' * 68)
-    print(f'  {"Modelo":<14} {"Cond":>6} {"Test Acc":>9} {"Artigo":>9} {"Delta":>8}  Status')
-    print(f'  {"-"*60}')
+    print(f'  {"Modelo":<14} {"Cond":>6} {"Test Acc":>10} {"Test Loss":>11}')
+    print(f'  {"-"*45}')
     for (name, cond), res in all_results.items():
-        tgt    = ARTICLE_TARGETS.get(name, {}) if cond == 'base' else {}
-        artigo = tgt.get('test_acc', None)
-        if artigo is not None:
-            delta = res['test_acc'] - artigo
-            ok = '✅' if abs(delta) <= TOLERANCE else ('⚠️ ' if abs(delta) <= TOLERANCE * 2 else '❌')
-            print(f'  {name:<14} {cond:>6} {res["test_acc"]:>8.2f}%  '
-                  f'{artigo:>7}%  {delta:>+7.2f}%  {ok}')
-        else:
-            print(f'  {name:<14} {cond:>6} {res["test_acc"]:>8.2f}%  {"--":>9}   {"--":>8}')
+        print(f'  {name:<14} {cond:>6} {res["test_acc"]:>9.2f}%  '
+              f'{res["test_loss"]:>10.2f}%')
     print('=' * 68)
     print('\nRuns salvas em: runs/')
 

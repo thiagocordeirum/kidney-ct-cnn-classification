@@ -12,48 +12,36 @@ O trabalho investiga o impacto de técnicas de pré-processamento de contraste �
 kidney-ct-cnn-classification/
 │
 ├── data/
-│   └── kidneyData.csv               # Metadados do CT Kidney Dataset (Kaggle)
+│   └── kidneyData.csv               # Índice do CT Kidney Dataset (caminhos e classes)
 │
 ├── src/
 │   ├── dataset.py                   # Split treino/val/teste e pré-processamento (Base, CLAHE, Gama)
-│   ├── model_resnet18.py            # Definição do modelo ResNet-18 (transfer learning)
-│   ├── model_resnet34.py            # Definição do modelo ResNet-34 (transfer learning)
-│   ├── model_resnet50.py            # Definição do modelo ResNet-50 (transfer learning)
-│   ├── model_alexnet.py             # Definição do modelo AlexNet (transfer learning)
-│   ├── model_vgg16.py               # Definição do modelo VGG-16 (transfer learning)
-│   ├── model_mobilenetv2.py         # Definição do modelo MobileNetV2 (experimento adicional)
-│   ├── model_efficientnetb0.py      # Definição do modelo EfficientNet-B0 (experimento adicional)
+│   ├── model_resnet18.py            # ResNet-18 com backbone congelado (transfer learning)
+│   ├── model_resnet34.py            # ResNet-34 com backbone congelado (transfer learning)
+│   ├── model_resnet50.py            # ResNet-50 com backbone congelado (transfer learning)
+│   ├── model_alexnet.py             # AlexNet com backbone congelado (transfer learning)
+│   ├── model_vgg16.py               # VGG-16 com backbone congelado (transfer learning)
 │   ├── trainer.py                   # Loop de treino, validação e avaliação em teste
-│   ├── logger.py                    # Registro de métricas por época (CSV)
-│   └── targets.py                   # Metas de acurácia do artigo original (RITA) para validação
-│
-├── results/
-│   └── *_log.csv                    # Logs de treino por modelo/condição
-│
-├── gradcam_output/
-│   └── gradcam_*.png                # Mapas de ativação (Grad-CAM) por modelo/condição
+│   └── logger.py                    # Registro de métricas por época (CSV)
 │
 ├── docs/
 │   ├── main.tex                     # Artigo em LaTeX (formato IEEEtran, submetido ao CBEB 2026)
-│   ├── fig_acc_curves.png           # Figura: curvas de acurácia de treino/validação
-│   ├── fig_loss_curves.png          # Figura: curvas de perda de treino/validação
-│   ├── fig_confusion.png            # Figura: matrizes de confusão dos 15 experimentos
-│   ├── sample_normal.jpg            # Amostra de imagem CT — classe Normal
-│   ├── sample_tumor.jpg             # Amostra de imagem CT — classe Tumor
-│   ├── metricas_avaliacao.csv       # Métricas de referência do artigo original (RITA)
-│   ├── metricas_artigo.txt          # Metas de acurácia por modelo (artigo original)
-│   └── plot_results.py              # Script de geração das figuras de resultados
+│   ├── plot_results.py              # Script de geração das figuras de resultados
+│   ├── fig_acc_curves.png           # Fig. 2: curvas de acurácia de treino/validação
+│   ├── fig_loss_curves.png          # Fig. 3: curvas de perda de treino/validação
+│   ├── fig_confusion.png            # Fig. 4: matrizes de confusão (CLAHE e Gama)
+│   ├── Normal- (1).jpg              # Amostra de imagem CT — classe Normal (Fig. 1)
+│   └── Tumor- (319).jpg             # Amostra de imagem CT — classe Tumor (Fig. 1)
 │
 ├── train.py                         # Script principal de treinamento (seleção interativa de experimentos)
 ├── collect_metrics.py               # Consolidação das métricas de teste dos experimentos
 ├── retest.py                        # Reavaliação de pesos salvos no conjunto de teste
-├── summary.py                       # Geração de resumo comparativo dos resultados
-├── gradcam.py                       # Geração dos mapas de ativação Grad-CAM
+├── summary.py                       # Resumo comparativo de treino/validação/teste
 ├── .gitignore
 └── README.md                        # Documentação do repositório
 ```
 
-> **Nota:** as pastas `runs/` (pesos `.pt` e imagens de batch geradas durante o treino) não são versionadas por conterem artefatos binários grandes e reprodutíveis a partir do código.
+> **Nota:** as pastas `runs/` (pesos `.pt`, plots e imagens de batch) e `results/` (logs por época) são geradas durante o treino e não são versionadas — são reprodutíveis a partir do código com a semente fixa `seed=42`.
 
 ---
 
@@ -90,11 +78,11 @@ Os resultados de cada execução (pesos, curvas, matrizes de confusão, métrica
 
 - `collect_metrics.py` consolida as métricas de teste (acurácia, precisão, recall, F1) de todos os experimentos.
 - `retest.py` permite reavaliar pesos já salvos no conjunto de teste, sem retreinar.
-- `summary.py` gera um resumo comparativo final.
+- `summary.py` gera um resumo comparativo de treino, validação e teste.
 
-### 4. Interpretabilidade
+### 4. Geração das Figuras do Artigo
 
-`gradcam.py` gera mapas de ativação (Grad-CAM) para cada modelo/condição, evidenciando as regiões da imagem mais relevantes para a decisão da rede — salvos em `gradcam_output/`.
+`docs/plot_results.py` compõe, a partir dos resultados em `runs/`, as três figuras utilizadas no artigo: curvas de acurácia, curvas de perda e o painel de matrizes de confusão para as condições CLAHE e Gama.
 
 ---
 
@@ -126,10 +114,10 @@ python train.py
 python collect_metrics.py
 ```
 
-### Gerar mapas Grad-CAM
+### Gerar as figuras do artigo
 
 ```bash
-python gradcam.py
+python docs/plot_results.py
 ```
 
 > Certifique-se de que o ambiente possui PyTorch com suporte a CUDA e que a biblioteca `kagglehub` está configurada para o download do dataset.
@@ -166,10 +154,10 @@ Análise detalhada, discussão e referências bibliográficas completas estão d
 
 ## Observações
 
-- O dataset original (`CT Kidney Dataset`) é público e está disponível no [Kaggle](https://www.kaggle.com/datasets/nazmul0087/ct-kidney-dataset-normal-cyst-tumor-and-stone).
-- Este repositório contempla apenas as classes **Normal** e **Tumor**; o dataset original também possui as classes Cyst e Stone, não utilizadas neste trabalho.
-- Os pesos treinados (`.pt`) não são versionados neste repositório; podem ser reproduzidos executando `train.py` com o mesmo `seed=42`.
-- Os experimentos com MobileNetV2 e EfficientNet-B0 (`src/model_mobilenetv2.py`, `src/model_efficientnetb0.py`) fazem parte da exploração inicial do projeto e não integram o conjunto de resultados reportado no artigo.
+- O dataset original (`CT Kidney Dataset`) é público e está disponível no [Kaggle](https://www.kaggle.com/datasets/nazmul0087/ct-kidney-dataset-normal-cyst-tumor-and-stone). O download é feito automaticamente via `kagglehub` na primeira execução.
+- Este repositório contempla apenas as classes **Normal** e **Tumor**; o dataset original também possui as classes Cyst e Stone, excluídas conforme os critérios descritos na Seção III-C do artigo.
+- Os pesos treinados (`.pt`) não são versionados; podem ser reproduzidos executando `train.py` com a semente fixa `seed=42`.
+- O conteúdo deste repositório corresponde exatamente ao que está descrito no artigo: as cinco arquiteturas avaliadas e as três condições de pré-processamento. Experimentos exploratórios conduzidos fora do escopo do artigo não foram incluídos.
 
 ---
 

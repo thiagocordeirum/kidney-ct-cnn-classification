@@ -31,22 +31,10 @@ def _apply_clahe(pil_gray: Image.Image) -> Image.Image:
     return Image.fromarray(_clahe_proc.apply(arr))
 
 
-def _apply_he(pil_gray: Image.Image) -> Image.Image:
-    arr = np.array(pil_gray)
-    return Image.fromarray(cv2.equalizeHist(arr))
-
-
 def _apply_gamma(pil_gray: Image.Image, gamma: float = 0.7) -> Image.Image:
     arr = np.array(pil_gray).astype(np.float32) / 255.0
     arr = np.power(arr, gamma) * 255.0
     return Image.fromarray(arr.clip(0, 255).astype(np.uint8))
-
-
-def _apply_stretch(pil_gray: Image.Image) -> Image.Image:
-    arr = np.array(pil_gray).astype(np.float32)
-    p2, p98 = np.percentile(arr, (2, 98))
-    arr = np.clip((arr - p2) / (p98 - p2 + 1e-8) * 255.0, 0, 255)
-    return Image.fromarray(arr.astype(np.uint8))
 
 
 _transform = transforms.Compose([
@@ -57,11 +45,9 @@ _transform = transforms.Compose([
 ])
 
 _PREPROC = {
-    'base':    None,
-    'clahe':   _apply_clahe,
-    'he':      _apply_he,
-    'gamma':   _apply_gamma,
-    'stretch': _apply_stretch,
+    'base':  None,
+    'clahe': _apply_clahe,
+    'gamma': _apply_gamma,
 }
 
 
@@ -93,7 +79,7 @@ def make_loaders(dataset_path: str, csv_path: str,
                  condition: str = 'base', device=None):
     """
     Lê o CSV, corrige paths, filtra Normal+Tumor, balanceia e faz split 60/20/20.
-    condition: 'base' | 'clahe' | 'he'
+    condition: 'base' | 'clahe' | 'gamma'
     """
     if condition not in _PREPROC:
         raise ValueError(f"condition deve ser um de {list(_PREPROC)}, recebeu '{condition}'")

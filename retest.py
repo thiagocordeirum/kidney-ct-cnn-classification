@@ -22,13 +22,11 @@ torch.manual_seed(SEED)
 np.random.seed(SEED)
 
 _MODEL_BUILDERS = {
-    'ResNet-18':       'model_resnet18',
-    'ResNet-34':       'model_resnet34',
-    'ResNet-50':       'model_resnet50',
-    'MobileNetV2':     'model_mobilenetv2',
-    'EfficientNet-B0': 'model_efficientnetb0',
-    'AlexNet':         'model_alexnet',
-    'VGG-16':          'model_vgg16',
+    'ResNet-18': 'model_resnet18',
+    'ResNet-34': 'model_resnet34',
+    'ResNet-50': 'model_resnet50',
+    'AlexNet':   'model_alexnet',
+    'VGG-16':    'model_vgg16',
 }
 
 
