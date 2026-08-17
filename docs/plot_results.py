@@ -254,8 +254,12 @@ def compose_confusion():
             if ci == n_cond - 1:
                 ax.set_xlabel('Predito', fontsize=15, labelpad=6)
             if mi == 0:
-                ax.set_ylabel(f'{cond_label}\n\nReal', fontsize=15,
-                              fontweight='bold', labelpad=8)
+                # "Real" é rótulo de eixo (sem negrito); a condição identifica
+                # a linha e vai à esquerda dele, em negrito.
+                ax.set_ylabel('Real', fontsize=15, labelpad=8)
+                ax.text(-0.42, 0.5, cond_label, transform=ax.transAxes,
+                        fontsize=17, fontweight='bold', rotation=90,
+                        ha='center', va='center')
 
     out = OUT_DIR / 'fig_confusion.png'
     fig.savefig(out, dpi=200, bbox_inches='tight')
