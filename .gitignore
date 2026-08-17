@@ -38,6 +38,18 @@ package.json
 docs/GEMINI.md
 docs/RITA-VOL32-NR1-61*.pdf
 
+# Artefatos de compilação do LaTeX (gerados ao compilar docs/main.tex)
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.toc
+*.bbl
+*.blg
+docs/main.pdf
+
 # Ambientes virtuais
 .env
 venv/

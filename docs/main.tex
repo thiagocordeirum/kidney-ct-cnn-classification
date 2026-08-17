@@ -124,6 +124,18 @@ postura proativa. Nesse contexto, o desenvolvimento de ferramentas
 diagnósticas mais precisas, sobretudo aquelas fundamentadas em exames de
 imagem, configura-se como uma estratégia indispensável~\cite{bakas}.
 
+Na prática clínica, a tomografia computadorizada é o principal exame para a
+detecção e a caracterização de massas renais, frequentemente identificadas de
+forma incidental. Sua interpretação, contudo, permanece desafiadora: lesões
+benignas como o angiomiolipoma pobre em gordura e o oncocitoma apresentam
+características tomográficas que se sobrepõem às do carcinoma de células
+renais. Em avaliações multifásicas, leitores humanos alcançaram especificidade
+próxima de $50\%$ na distinção entre lesões benignas e malignas, e estima-se
+que cerca de $10\%$ das nefrectomias parciais recaiam sobre tumores
+benignos~\cite{klontzas2024}. Exames amplamente disponíveis, porém de
+interpretação ambígua, evidenciam a lacuna que métodos computacionais de apoio
+à decisão podem preencher.
+
 Diante dessa necessidade de métodos diagnósticos mais precisos e objetivos,
 o aprendizado profundo (\textit{deep learning}) tem se consolidado como uma
 abordagem promissora para a análise automatizada de imagens
@@ -132,10 +144,11 @@ Convolucionais (CNNs) destacam-se pela capacidade de extrair automaticamente
 características discriminativas a partir de dados visuais, identificando
 padrões sutis frequentemente imperceptíveis ao olho humano~\cite{litjens2017}.
 No contexto específico do câncer renal, modelos baseados em CNNs vêm sendo
-empregados em tarefas como a segmentação de rins e lesões tumorais e a
-classificação de massas renais em exames de tomografia computadorizada,
-contribuindo para diagnósticos mais rápidos e menos dependentes da experiência
-subjetiva do especialista.
+empregados em tarefas como a segmentação de rins e lesões
+tumorais~\cite{heller2019} e a classificação de massas renais em exames de
+tomografia computadorizada~\cite{uhm2021,klontzas2024}, contribuindo para
+diagnósticos mais rápidos e menos dependentes da experiência subjetiva do
+especialista.
 
 Apesar dos recentes avanços, a eficácia das CNNs na classificação de imagens
 médicas permanece fortemente condicionada à qualidade dos dados de entrada. Em
@@ -695,6 +708,14 @@ M. J. Sheller, G. A. Reina, B. Edwards, J. Martin, e S. Bakas,
 ``Multi-institutional deep learning modeling without sharing patient data,''
 \textit{Nature Communications}, v.~11, n.~1, p.~5021, 2020.
 
+\bibitem{klontzas2024}
+M. E. Klontzas, G. Kalarakis, E. Koltsakis, T. Papathomas, A. H. Karantanas,
+e A. Tzortzakakis,
+``Convolutional neural networks for the differentiation between benign and
+malignant renal tumors with a multicenter international computed tomography
+dataset,''
+\textit{Insights into Imaging}, v.~15, art.~26, 2024.
+
 \bibitem{lecun2015}
 Y. LeCun, Y. Bengio, e G. Hinton,
 ``Deep learning,''
@@ -705,6 +726,27 @@ G. Litjens, T. Kooi, B. E. Bejnordi, A. A. A. Setio, F. Ciompi,
 M. Ghafoorian, J. A. W. M. van der Laak, B. van Ginneken, e C. I. Sánchez,
 ``A survey on deep learning in medical image analysis,''
 \textit{Medical Image Analysis}, v.~42, pp.~60--88, 2017.
+
+\bibitem{heller2019}
+N. Heller, N. Sathianathen, A. Kalapara, E. Walczak, K. Moore, H. Kaluzniak,
+J. Rosenberg, P. Blake, Z. Rengel, M. Oestreich, J. Dean, M. Tradewell,
+A. Shah, R. Tejpaul, Z. Edgerton, M. Peterson, S. Raza, S. Regmi,
+N. Papanikolopoulos, e C. Weight,
+``The KiTS19 challenge data: 300 kidney tumor cases with clinical context,
+CT semantic segmentations, and surgical outcomes,''
+\textit{arXiv:1904.00445}, 2019.
+
+\bibitem{uhm2021}
+K.-H. Uhm, S.-W. Jung, M. H. Choi, H.-K. Shin, J.-I. Yoo, S. W. Oh,
+J. Y. Kim, H. G. Kim, Y. J. Lee, S. Y. Youn, S.-H. Hong, e S.-J. Ko,
+``Deep learning for end-to-end kidney cancer diagnosis on multi-phase
+abdominal computed tomography,''
+\textit{npj Precision Oncology}, v.~5, art.~54, 2021.
+
+\bibitem{he2016}
+K. He, X. Zhang, S. Ren, e J. Sun,
+``Deep residual learning for image recognition,''
+in \textit{Proc. CVPR}, 2016, pp.~770--778.
 
 \bibitem{clahe}
 S. M. Pizer, E. P. Amburn, J. D. Austin, R. Cromartie, A. Geselowitz,
@@ -737,11 +779,6 @@ in \textit{Proc. EHB}, IEEE, 2020, pp.~1--4.
 ``CT Kidney Dataset: Normal-Cyst-Tumor and Stone,'' Kaggle, 2022.
 Disponível em: kaggle.com/datasets/nazmul0087/\linebreak[1]
 ct-kidney-dataset-normal-cyst-tumor-and-stone.
-
-\bibitem{he2016}
-K. He, X. Zhang, S. Ren, e J. Sun,
-``Deep residual learning for image recognition,''
-in \textit{Proc. CVPR}, 2016, pp.~770--778.
 
 \bibitem{krizhevsky2012}
 A. Krizhevsky, I. Sutskever, e G. E. Hinton,
