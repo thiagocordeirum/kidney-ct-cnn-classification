@@ -50,6 +50,9 @@ docs/RITA-VOL32-NR1-61*.pdf
 *.blg
 docs/main.pdf
 
+# Carta de resposta aos revisores — comunicação confidencial, não vai ao repo público
+docs/carta_resposta.*
+
 # Ambientes virtuais
 .env
 venv/
