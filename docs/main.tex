@@ -20,6 +20,24 @@
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{placeins}
+
+% Hifenização em português (evita quebras incorretas como "car-acterísticas").
+% Os rótulos do IEEEtran são restaurados logo abaixo, pois o babel os traduziria.
+\usepackage[brazilian]{babel}
+\addto\captionsbrazilian{%
+  \renewcommand{\figurename}{Fig.}%
+  \renewcommand{\tablename}{TABLE}%
+  \renewcommand{\refname}{References}%
+  \renewcommand{\abstractname}{Abstract}%
+}
+\hyphenation{%
+  ca-rac-te-rís-ti-cas con-vo-lu-cio-nais con-vo-lu-cio-nal
+  to-mo-grá-fi-cas to-mo-gra-fia ar-qui-te-tu-ras ar-qui-te-tu-ra
+  clas-si-fi-ca-ção clas-si-fi-ca-dor apren-di-za-do de-sem-pe-nho
+  com-pu-ta-do-ri-za-da equa-li-za-ção me-to-do-lo-gia
+  re-pro-du-ti-bi-li-da-de nor-ma-li-za-ção in-ten-si-da-des
+}
+
 \definecolor{darkblue}{HTML}{00005C}
 \usepackage[colorlinks=true, citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue]{hyperref}
 
